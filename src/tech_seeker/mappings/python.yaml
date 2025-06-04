@@ -1,0 +1,35 @@
+known:
+  - python
+  - pytest
+  - backstage
+  - kubernetes
+  - postgresql
+  - django
+  - fastapi
+map:
+  pg8000:
+    - to: postgresql
+      keep_version: false
+  psycopg2:
+    - to: postgresql
+      keep_version: false
+  asyncpg:
+    - to: postgresql
+      keep_version: false
+  psycopg2-binary:
+    - to: postgresql
+      keep_version: false
+  django:
+    - to: django
+      keep_version: true
+  kopf:
+    - to: kubernetes
+      keep_version: false
+  kubernetes:
+    - to: kubernetes
+      keep_version: false
+  backstage-client:
+    - to: backstage
+  fastapi:
+    - to: fastapi
+skip: [ ]
