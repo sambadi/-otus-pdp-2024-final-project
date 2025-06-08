@@ -1,0 +1,21 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/ruff-action@v1
+      - uses: jpetrucciani/mypy-check@master
+      - name: Install a specific version of uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.7.12"
+      - name: Install the project dependencies
+        run: uv sync
+      - name: Run the automated tests
+        run: uv run pytest ./tests --cov=tech_seeker --cov-report term-missing

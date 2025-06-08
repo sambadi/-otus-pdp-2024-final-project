@@ -50,7 +50,12 @@ class LocalDirectoryContext(AbstractProjectContext):
 
     def __next__(self) -> AbstractFileContext:
         """Получение следующего файла из итератора"""
-        path = next(self._glob_iterator)
-        if not path:
-            raise StopIteration()
-        return LocalFileContext(file_path=path.as_posix())
+        while True:
+            path: Path = next(self._glob_iterator)
+            if not path:
+                raise StopIteration()
+            if path.is_dir():
+                continue
+            return LocalFileContext(file_path=path.as_posix())
+
+        raise StopIteration()

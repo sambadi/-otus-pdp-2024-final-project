@@ -91,7 +91,7 @@ class PythonUvSensor(BaseSensor):
         version = context.content().decode(encoding="utf-8")
 
         context.change_context(original_context_path)
-        return version.strip("\n")
+        return version.strip()
 
     def _scan(self, context: AbstractFileContext) -> Generator[Dependency, None, None]:
         """Извлечение зависимостей из файла проекта python под управлением uv"""

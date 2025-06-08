@@ -15,17 +15,20 @@ def test_scan_maps_dependencies_successfully():
 
     # Mock SensorRegistry.sensors()
     sensors = [mock.MagicMock()]
-    with patch('tech_seeker.scanner.scaner.SensorRegistry.sensors', return_value=sensors):
-
+    with patch(
+        "tech_seeker.scanner.scaner.SensorRegistry.sensors", return_value=sensors
+    ):
         # Mock sensor's get_dependencies
-        sensors[0].get_dependencies.return_value = [mock.MagicMock(spec=Dependency, type='some_type')]
+        sensors[0].get_dependencies.return_value = [
+            mock.MagicMock(spec=Dependency, type="some_type")
+        ]
 
         # Mock mapper for 'some_type'
         mapper = mock.MagicMock(spec=AbstractMapper)
         mapper.map.return_value = [mock.MagicMock(spec=Technology)]
 
         # Setup Scaner with custom mappers
-        scaner = Scaner(mappers={'some_type': mapper})
+        scaner = Scaner(mappers={"some_type": mapper})
 
         # Call scan
         result = scaner.scan(context_mock)
@@ -43,9 +46,13 @@ def test_scan_raises_unknown_mapper_error():
 
     # Mock SensorRegistry.sensors()
     sensors = [mock.MagicMock()]
-    with patch('tech_seeker.scanner.scaner.SensorRegistry.sensors', return_value=sensors):
-            # Mock sensor's get_dependencies
-        sensors[0].get_dependencies.return_value = [mock.MagicMock(spec=Dependency, type='unknown_type')]
+    with patch(
+        "tech_seeker.scanner.scaner.SensorRegistry.sensors", return_value=sensors
+    ):
+        # Mock sensor's get_dependencies
+        sensors[0].get_dependencies.return_value = [
+            mock.MagicMock(spec=Dependency, type="unknown_type")
+        ]
 
         # Create Scaner with no mappers (uses default)
         scaner = Scaner()
@@ -63,8 +70,9 @@ def test_scan_returns_empty_set_when_no_dependencies():
 
     # Mock SensorRegistry.sensors()
     sensors = [mock.MagicMock()]
-    with patch('tech_seeker.scanner.scaner.SensorRegistry.sensors', return_value=sensors):
-
+    with patch(
+        "tech_seeker.scanner.scaner.SensorRegistry.sensors", return_value=sensors
+    ):
         # Mock sensor's get_dependencies to return nothing
         sensors[0].get_dependencies.return_value = []
 
