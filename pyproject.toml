@@ -24,3 +24,10 @@ dev = [
     "pytest>=8.4.0",
     "pytest-cov>=6.1.1",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+show_column_numbers = true
+no_error_summary = true
+check_untyped_defs = true

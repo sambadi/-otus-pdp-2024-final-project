@@ -33,9 +33,12 @@ class PythonUvSensor(BaseSensor):
                 usage_scope=usage_scope,
             )
 
-    def _extract_package_name(self, pkg: str) -> str:
+    def _extract_package_name(self, pkg: str) -> str | None:
         """Извлечение имени пакета из строки"""
-        return self._dep_name_regex.match(pkg).group(1)
+        match = self._dep_name_regex.match(pkg)
+        if match:
+            return match.group(1)
+        return None
 
     def __extract_dependencies(
         self,
@@ -48,11 +51,13 @@ class PythonUvSensor(BaseSensor):
             return
 
         for package_name in packages:
-            package_name = self._extract_package_name(package_name.lower())
-            if version := locked_package_versions_map.get(package_name):
+            pkg_name = self._extract_package_name(package_name.lower())
+            if not pkg_name:
+                continue
+            if version := locked_package_versions_map.get(pkg_name):
                 yield Dependency(
                     type="python",
-                    name=package_name,
+                    name=pkg_name,
                     version=version,
                     usage_scope=usage_scope,
                 )

@@ -1,9 +1,19 @@
+from typing import Generator
+
+from tech_seeker.abstractions import AbstractFileContext
+from tech_seeker.models import Dependency
 from tech_seeker.scanner.sensors.base import BaseSensor, SensorRegistry
 
 
 def test_register_sensor():
     class TestSensor(BaseSensor):
-        pass
+        def _scan(
+            self, context: AbstractFileContext
+        ) -> Generator[Dependency, None, None]:
+            yield Dependency(
+                name="test",
+                version="0.0.1",
+            )
 
     SensorRegistry.register_sensor(TestSensor)
     assert TestSensor in SensorRegistry._sensors
@@ -14,7 +24,13 @@ def test_duplicate_registration():
     SensorRegistry._sensors = []
 
     class TestSensor(BaseSensor):
-        pass
+        def _scan(
+            self, context: AbstractFileContext
+        ) -> Generator[Dependency, None, None]:
+            yield Dependency(
+                name="test",
+                version="0.0.1",
+            )
 
     SensorRegistry.register_sensor(TestSensor)
     SensorRegistry.register_sensor(TestSensor)
@@ -28,7 +44,13 @@ def test_sensors_generator():
     SensorRegistry._sensors = []
 
     class TestSensor(BaseSensor):
-        pass
+        def _scan(
+            self, context: AbstractFileContext
+        ) -> Generator[Dependency, None, None]:
+            yield Dependency(
+                name="test",
+                version="0.0.1",
+            )
 
     SensorRegistry.register_sensor(TestSensor)
     sensors = list(SensorRegistry.sensors())
@@ -40,6 +62,12 @@ def test_sensors_generator():
 
 def test_metaclass_registration():
     class TestSensor(BaseSensor):
-        pass
+        def _scan(
+            self, context: AbstractFileContext
+        ) -> Generator[Dependency, None, None]:
+            yield Dependency(
+                name="test",
+                version="0.0.1",
+            )
 
     assert TestSensor in SensorRegistry._sensors
