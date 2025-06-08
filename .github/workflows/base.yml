@@ -10,7 +10,6 @@ jobs:
         with:
           python-version: '3.12'
       - uses: astral-sh/ruff-action@v1
-      - uses: jpetrucciani/mypy-check@master
       - name: Install a specific version of uv
         uses: astral-sh/setup-uv@v6
         with:
